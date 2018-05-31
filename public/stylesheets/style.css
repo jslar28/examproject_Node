@@ -1,0 +1,64 @@
+body {
+  font-family: "Poppins", sans-serif;
+  margin: auto;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+}
+
+.backdrop {
+  background: url(/images/findASitterBackground.jpg) no-repeat center #979D9D;  /* Image source: zelsdiary.com */
+  background-size: contain;
+  height: 100%;
+  width: 100%;
+}
+
+.backdropClean {
+  background: url(/images/findASitterBackgroundClean.jpg) no-repeat center #979D9D;  /* Image source: zelsdiary.com */
+  background-size: contain;
+  height: 100%;
+  width: 100%;
+}
+
+
+.navigationBar {
+  list-style-type: none;
+  margin: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navigationLink {
+  float: left;
+}
+
+.navigationLink a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navigationLink a:hover {
+  background-color: #111;
+}
+
+/* Front Page */
+
+.searchBar {
+  padding-top: 15em;
+  padding-bottom: 2em;
+  text-align: center;
+}
+
+.searchBar input {
+  width: 25em
+}
+
+.bannerMessage {
+  text-align: center;
+  color: white;
+}
