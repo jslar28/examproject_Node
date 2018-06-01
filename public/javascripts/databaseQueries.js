@@ -23,7 +23,7 @@ module.exports.getAll = function getAll(res, collectionName) {
     })
 }
 
-module.exports.getAllWithZipCode = function getAll(res, collectionName, zipCode) {
+module.exports.getAllWithZipCode = function getAll(collectionName, zipCode, callback) {
   let results = [];
   mongo.connect(path, (err, client) => {
       if (err) {
@@ -33,15 +33,14 @@ module.exports.getAllWithZipCode = function getAll(res, collectionName, zipCode)
       const db = client.db(dbName);
       let elements = db.collection(String(collectionName)).find();
       elements.forEach(element => {
-        console.log("E, zip: " + element.zipCode + " | zip: " + zipCode)
-        if (element.zipCode === zipCode) {
-          results.push(element);
-        }   
+          if (element.zipCode === zipCode) {
+            results.push(element);
+          }   
         }, () => {
           client.close();
-          res.render('sitterSearch', {layout: 'layoutClean', items: results})
-      });
-  })
+          callback(results)
+        });
+    })
 }
 
 module.exports.getById = function getById(res, collectionName, id) {

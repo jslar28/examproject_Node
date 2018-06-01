@@ -12,7 +12,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/search', (req, res) => {
-  database.getAllWithZipCode(res, "sitters", req.query.zipCode);
+  database.getAllWithZipCode("sitters", req.query.zipCode, (sitters) => {
+    res.render("sitterSearch", { layout: "layoutClean", items: sitters })
+  });
 });
 
 router.get('/dummy', function(req, res, next) {
