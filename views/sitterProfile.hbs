@@ -1,0 +1,8 @@
+<div class="sitterInfoBox">
+    <p>Username: {{ this.username }}</p>
+    <p>Password: {{ this.password }}</p>
+    <p>ZipCode: {{ this.zipCode}}</p>
+    <form method="get", action="/sitters/{{ this._id }}">
+        <button type="submit">Contact</button>
+    </form>
+</div>
