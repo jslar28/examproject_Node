@@ -1,0 +1,14 @@
+<div class="middleBox">
+        <h4 style="width: 100%; text-align: center">Hello! Please login.</h4>
+        <form method="post" action="/login">
+            <div class="centerSection">
+                <span style="width: 100%; color:red">{{ error }}</span><br><br>
+                <input type="text" placeholder="Username" name="username">
+                <input type="text" placeholder="Password" name="password">
+            </div>
+            <p style="color: red; width: 100%; text-align: center" th:text="${error }"></p>
+            <div class="centerSection">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>

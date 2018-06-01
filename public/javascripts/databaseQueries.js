@@ -60,14 +60,63 @@ module.exports.getById = function getById(res, collectionName, id) {
             return;
           }
           client.close();
-          res.json(result);
+          //res.json(result);
+          res.render('sitterProfile', {layout: 'layoutClean', sitter: result})
       }
     );
   })
 }
 
-/* Queries used for testing/presentation */
+/* Post Stuff */
+module.exports.add = function add(res, collectionName, user, callback) {
+  console.log("Add called.");
+  mongo.connect(path, (err, client) => {
+    if (err) {
+      console.log("There was an error running MongoDB...", err)
+      return;
+    }
+    const db = client.db(dbName);
+    console.log("Collection: " + (String(collectionName)));
+    db.collection(String(collectionName)).insert(user);
+    client.close();
+    callback(user);
+    //res.render("welcomePage", {layout: "layoutClean", user: user})
+  })
+}
 
+module.exports.validateUser = function validateUser(username, password, callback) {
+  console.log("Validation user...");
+  mongo.connect(path, (err, client) => {
+    if (err) {
+      console.log("There was an error running MongoDB...", err)
+      return;
+    }
+    const db = client.db(dbName);
+
+    // Find user by username (should only be one)
+    db.collection("users").findOne({
+      "username": username
+    }, (err, result) => {
+      if (err) {
+        console.log("There was an error finding an element by that ID... :", err)
+        return;
+      }
+
+      // If we found one, check if password mathes - else, throw error message.
+      if (result != null) {
+        if (result.password == password) {
+          return callback(true, "Valid login!", result);
+        } else {
+          return callback(false, "Invalid login.")
+        }
+      } else {
+        return callback(false, "Invalid username.")
+      }
+    })
+  })
+}
+
+/* Misc */
 module.exports.createDummySitters = function createDummySitters(res) {
   mongo.connect(path, (err, client) => {
   if (err) {
@@ -113,4 +162,26 @@ module.exports.createDummyUsers = function createDummyUsers(res) {
     res.send('Created dummy users.');
   }))
 })
+}
+
+module.exports.checkUsername = function checkUsername(username, callback) {
+  mongo.connect(path, (err, client) => {
+    if (err) {
+      console.log("There was an error when trying to connect to MongoDB...", err)
+    }
+    const db = client.db(dbName);
+    db.collection("users").findOne({"username": String(username)}, (err, result) => {
+      if (err) {
+        console.log("There was an error finding an element by that name... :", err)
+        return;
+      }
+      console.log("Result: " + result)
+      if (result == null) {
+        console.log("Username is not taken.")
+        return callback(true);
+      }
+      console.log("Occupied username: " + username)
+      return callback(false);
+    })
+  })
 }

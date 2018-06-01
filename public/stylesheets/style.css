@@ -72,6 +72,28 @@ body, html {
   background-color: #7adeda;
 }
 
+.profileInfoBox {
+  width: 25em;
+  padding: 1em 3em 1em 3em;
+  margin: 1em auto 1em;
+  background-color: #7adeda;
+}
+
+.sitterInfo {
+  text-align: center
+}
+
+.sitterInfo input {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.welcomeMessage {
+  text-align: center;
+  padding: 1em 1em 1em 1em;
+  color: white;
+}
+
 /* Generel */
 
 .wideCentered {
@@ -81,6 +103,14 @@ body, html {
 
 .spacer {
   height: 4em;
+}
+
+.middleBox {
+  height: auto;
+  width: 35em;
+  margin: 5em auto 1em;
+  padding: 5em 3em 3em 3em;
+  background-color: #7adeda;
 }
 
 /* Chat Related */
@@ -107,13 +137,13 @@ body, html {
 }
 
 #feedback p{
-  color: #aaa;
+  color: #1c6275;
   padding: 14px 0px;
   margin: 0 20px;
 }
 
 #chat-output strong{
-  color: #42cef4;
+  color: #1c6275;
 }
 
 #chat label{
@@ -142,4 +172,11 @@ body, html {
   padding: 12px 0;
   width: 100%;
   border-radius: 0 0 2px 2px;
+}
+
+/* Login related */
+.centerSection {
+  width: 100%;
+  padding: 1em 0em 0em 1em;
+  text-align: center;
 }

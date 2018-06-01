@@ -1,8 +1,23 @@
-<div class="sitterInfoBox">
-    <p>Username: {{ this.username }}</p>
-    <p>Password: {{ this.password }}</p>
-    <p>ZipCode: {{ this.zipCode}}</p>
-    <form method="get", action="/sitters/{{ this._id }}">
-        <button type="submit">Contact</button>
-    </form>
+<h2 class="welcomeMessage">Welcome, <span>{{ sitter.firstName }}</span>!</h2>
+    <div class="profileContainer">
+        <div class="profileInfoBox">
+            <h4>Your User Informations:</h4>
+            <p> Username: {{ sitter.username }}</p>
+            <p> Name: {{ sitter.firstName }} <span>{{ sitter.lastName }}</span></p>
+            <p> Age: {{ sitter.age }} </p>
+            <p> Email: {{ sitter.email }} </p>
+            <p> Phone: {{ sitter.phone }} </p>
+            <p> Zip Codes: {{ sitter.zipCodes }} </p>
+        </div>
+    </div>
+</div>
+
+<div id="chat">
+    <div id="chat-window">
+        <div id="chat-output"></div>
+        <div id="feedback"></div>
+    </div>
+    <input id="handle" type="text" placeholder="Name"/>
+    <input id="message" type="text" placeholder="Message"/>
+    <button id="send">Send Message</button>
 </div>

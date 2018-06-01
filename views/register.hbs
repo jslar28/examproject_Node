@@ -1,0 +1,26 @@
+<div class="middleBox">
+    <h4>Thank you for wanting to join the community! Please register below.</h4>
+    <form method="post" action="/register">
+        <p>This is the information you will use to login to the site.</p>
+        <div class="centerSection">
+            <p>Login Info:</p>
+            <input type="text" placeholder="Username" name="username" id="username">
+            <input type="text" placeholder="Password" name="password" id="password">
+            <p>Information about you as a sitter:</p>
+            <div class="sitterInfo">
+                <span style="width: 100%; color:red">{{ error }}</span><br><br>
+                <span>First Name: <input type="text" placeholder="First Name" name="firstName" id="firstName"></span>
+                <span>Last Name: <input type="text" placeholder="Last Name" name="lastName" id="lastName"></span>
+                <span>Age:</span><input type="text" placeholder="Age" name="age" id="age">
+                <span>Email:</span><input type="text" placeholder="Email" name="email" id="email">
+                <span>Phone:</span><input type="text" placeholder="Phone" name="phone" id="phone">
+                <span>Zip Codes:</span><input type="text" placeholder="Zip Codes (seperate by commas)" name="zipCodes" id="zipCodes">
+            </div>
+        </div>
+        <p style="color: red; width: 100%; text-align: center"  th:text="${error}"></p>
+        <div class="centerSection" style="padding-bottom: 2em">
+            <button type="submit">Submit Sitter</button>
+        </div>
+        <p>Click submit to continue to become a member!</p>
+    </form>
+</div>
