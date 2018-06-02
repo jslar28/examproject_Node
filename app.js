@@ -6,7 +6,6 @@ var logger = require('morgan');
 var hbs = require('express-handlebars');
 var session = require('client-sessions');
 const database = require('./public/javascripts/databaseQueries');
-
 var app = express();
 
 // Setup middleware
@@ -23,6 +22,7 @@ app.use(session({
 }))
 
 // Require routes
+/*
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var sittersRouter = require('./routes/sitters');
@@ -40,10 +40,12 @@ app.use('/login', loginRouter);
 
 app.get('/logout', (req, res) => {
   console.log("Resetting session.")
+  let username = req.session.user.username;
   req.session.reset();
+  database.removeByUsername("loggedInUsers", username);
   res.redirect('/');
 })
-
+*/
 // view engine setup
 app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts'}))
 app.set('views', path.join(__dirname, 'views'));
@@ -75,6 +77,7 @@ function requireLogin(req, res, next) {
 }
 
 // catch 404 and forward to error handler
+/*
 app.use(function(req, res, next) {
   next(createError(404));
 });
@@ -89,5 +92,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+*/
 module.exports = app;

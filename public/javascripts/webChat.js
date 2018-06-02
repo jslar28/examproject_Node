@@ -10,6 +10,7 @@ var feedback = document.getElementById('feedback');
 
 // Emit Events
 sendButton.addEventListener('click', () => {
+    console.log("Click");
     socket.emit('chat', {
         message: message.value,
         handle: handle.value
@@ -22,7 +23,8 @@ message.addEventListener('keypress', () => {
 
 // Listen for Events
 socket.on('chat', (data) => {
-    output.innerHTML += "<p><strong>"+ data.handle + ": </strong>" + data.message +"</p>";
+    output.innerHTML += "<p><strong><a href='http://localhost:3000/sitters/"+ data.handle + "'>"+ data.handle +"</a></strong>: " + data.message + "</p>"
+    //output.innerHTML += "<p><strong>" + data.handle + ": </strong>" + data.message +"</p>";
     feedback.innerHTML = "";
 })
 

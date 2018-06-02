@@ -87,6 +87,24 @@ module.exports.getById = function getById(collectionName, id, callback) {
   })
 }
 
+/* Delete stuff */
+module.exports.removeByUsername = function removeByUsername(collectionName, username) {
+  mongo.connect(path, (err, client) => {
+    if (err) {
+      console.log("There was an error running MongoDB...", err)
+      return;
+    }
+    const db = client.db(dbName);
+    db.collection(String(collectionName)).deleteOne({"username": username}, (err, result) => {
+      if (err) {
+        console.log("There was an error delete an element by that ID... :", err)
+        return;
+      }
+      client.close();
+    });
+  })
+}
+
 /* Post Stuff */
 module.exports.add = function add(res, collectionName, user, callback) {
   console.log("Add called.");
@@ -97,15 +115,16 @@ module.exports.add = function add(res, collectionName, user, callback) {
     }
     const db = client.db(dbName);
     console.log("Collection: " + (String(collectionName)));
-    db.collection(String(collectionName)).insert(user);
-    client.close();
-    callback(user);
+    db.collection(String(collectionName)).insert(user, () => {
+      client.close();
+      callback(user);
+    });
     //res.render("welcomePage", {layout: "layoutClean", user: user})
   })
 }
 
 module.exports.validateUser = function validateUser(username, password, callback) {
-  console.log("Validation user...");
+  console.log("Validating user...");
   mongo.connect(path, (err, client) => {
     if (err) {
       console.log("There was an error running MongoDB...", err)
@@ -125,6 +144,7 @@ module.exports.validateUser = function validateUser(username, password, callback
       // If we found one, check if password mathes - else, throw error message.
       if (result != null) {
         if (result.password == password) {
+          db.collection("loggedInUsers").insert(result);
           return callback(true, "Valid login!", result);
         } else {
           return callback(false, "Invalid login.")

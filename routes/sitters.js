@@ -29,8 +29,14 @@ router.get('/:username', (req, res) => {
           }
         } else {
         yourProfile = false
-      }    
-      res.render('sitterProfile', {layout: 'layoutClean', sitter: result, owner: yourProfile, loggedIn: req.session.user})
+      }
+      database.getByUsername("loggedInUsers", req.params.username, (loggedInUser) => {
+        let userIsOnline = false;
+        if (loggedInUser) {
+          userIsOnline = true;
+        }
+        res.render('sitterProfile', {layout: 'layoutClean', sitter: result, owner: yourProfile, loggedIn: req.session.user, userIsOnline: userIsOnline})
+      })    
     })
 });
 

@@ -1,4 +1,4 @@
-<h2 class="welcomeMessage">Session: <span>{{ session.user._id }}</span></h2>
+{{!-- <h2 class="welcomeMessage">Session: <span>{{ session.user._id }}</span></h2> --}}
 <div>
     {{#if owner }}
         <h2 class="welcomeMessage">Welcome, <span>{{ sitter.firstName }}</span>!</h2>
@@ -19,19 +19,26 @@
     </div>
 </div>
 
-<div id="chat">
-    <div id="chat-window">
-        <div id="chat-output"></div>
-        <div id="feedback"></div>
-    </div>
-    {{#if loggedIn}}
-    <input id="handle" type="hidden" value={{loggedIn.username}}>
+{{#if userIsOnline}}
+    {{#if owner}}
+        <p id="user-status">Keep an eye on your chat!</p>
     {{else}}
-    <input id="handle" type="text" placeholder="Nickname"/>
-    {{/if}}    
-    <input id="message" type="text" placeholder="Message"/>
-    <button id="send">Send Message</button>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
-<script src="/javascripts/webChat.js"></script>
+        <p id="user-status">User is online! Chat with them below!</p>
+    {{/if}}
+    <div id="chat">
+        <div id="chat-window">
+            <div id="chat-output"></div>
+            <div id="feedback"></div>
+        </div>
+        {{#if loggedIn}}
+        <input id="handle" type="hidden" value={{loggedIn.username}}>
+        {{else}}
+        <input id="handle" type="text" placeholder="Nickname"/>
+        {{/if}}    
+        <input id="message" type="text" placeholder="Message"/>
+        <button id="send">Send Message</button>
+    </div>
+{{else}}
+<p id="user-status">User is offline...</p>
+    <p>Inbox Chat instead</p>
+{{/if}}

@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 const mongo = require('mongodb').MongoClient;
 const database = require('../public/javascripts/databaseQueries');
+const socket = require('../bin/www.js');
 // const registerForm = require('../public/javascripts/registerForm');
 
 let path = "mongodb://localhost:27017";
 let dbName = "nodeExam";
 
-
 /* GET register listing. */
 router.get('/', (req, res) => {
-  res.render('loginPage');
+    res.render('loginPage');
 });
 
 router.post('/', (req, res) => {
@@ -33,8 +33,7 @@ router.post('/', (req, res) => {
                 } else {
                     yourProfile = false;
                 }
-
-                res.render("sitterProfile", {layout: "layoutClean", sitter: user, session: req.session, owner: yourProfile, loggedIn: true})
+                res.render("sitterProfile", {layout: "layoutClean", sitter: user, session: req.session, owner: yourProfile, loggedIn: true, userIsOnline: true})
             } else {
                 res.render("loginPage", {layout: "layoutClean", error: message})
             }
