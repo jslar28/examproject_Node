@@ -10,8 +10,13 @@
   <ul class="navigationBar">
       <li class="navigationLink"><a href="http://localhost:3000">Front Page</a></li>
       <li class="navigationLink"><a href="http://localhost:3000/chat">Chat Page</a></li>
-      <li class="navigationLink"><a href="http://localhost:3000/register">Register Page</a></li>
-      <li class="navigationLink"><a href="http://localhost:3000/login">Login Page</a></li>
+      {{#if loggedIn}}
+        <li class="navigationLink"><a href="http://localhost:3000/sitters/{{loggedIn.username}}">Profile Page</a></li>
+        <li class="navigationLink"><a href="http://localhost:3000/logout">Logout Page</a></li>
+      {{else}}
+        <li class="navigationLink"><a href="http://localhost:3000/register">Register Page</a></li>
+        <li class="navigationLink"><a href="http://localhost:3000/login">Login Page</a></li>
+      {{/if}}
     </ul>
   {{{ body }}}
 

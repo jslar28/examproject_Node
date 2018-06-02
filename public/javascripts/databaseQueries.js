@@ -23,7 +23,7 @@ module.exports.getAll = function getAll(res, collectionName) {
     })
 }
 
-module.exports.getAllWithZipCode = function getAll(collectionName, zipCode, callback) {
+module.exports.getAllWithZipCode = function getAllWithZipCode(collectionName, zipCode, callback) {
   let results = [];
   mongo.connect(path, (err, client) => {
       if (err) {
@@ -33,7 +33,7 @@ module.exports.getAllWithZipCode = function getAll(collectionName, zipCode, call
       const db = client.db(dbName);
       let elements = db.collection(String(collectionName)).find();
       elements.forEach(element => {
-          if (element.zipCode === zipCode) {
+          if (element.zipCodes === zipCode) {
             results.push(element);
           }   
         }, () => {
@@ -43,7 +43,29 @@ module.exports.getAllWithZipCode = function getAll(collectionName, zipCode, call
     })
 }
 
-module.exports.getById = function getById(res, collectionName, id) {
+module.exports.getByUsername = function getByUsername(collectionName, username, callback) {
+  mongo.connect(path, (err, client) => {
+    if (err) {
+      console.log("There was an error running MongoDB...", err)
+      return;
+    }
+    const db = client.db(dbName);
+    db.collection(String(collectionName)).findOne(
+      {"username" : username}, 
+        (err, result) => {
+          if (err) {
+            console.log("There was an error finding an element by that ID... :", err)
+            return;
+          }
+          client.close();
+          console.log("Result by username: " + result)
+          callback(result);
+      }
+    );
+  })
+}
+
+module.exports.getById = function getById(collectionName, id, callback) {
   mongo.connect(path, (err, client) => {
     if (err) {
       console.log("There was an error running MongoDB...", err)
@@ -59,8 +81,7 @@ module.exports.getById = function getById(res, collectionName, id) {
             return;
           }
           client.close();
-          //res.json(result);
-          res.render('sitterProfile', {layout: 'layoutClean', sitter: result})
+          callback(result);
       }
     );
   })

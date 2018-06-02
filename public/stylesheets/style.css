@@ -116,7 +116,7 @@ body, html {
 /* Chat Related */
 
 #chat{
-  max-width: 600px;
+  max-width: 31em;
   margin: 30px auto;
   border: 1px solid #42cef4;
   box-shadow: 1px 3px 5px rgba(0,0,0,0.05);
@@ -124,7 +124,7 @@ body, html {
 }
 
 #chat-window{
-  height: 400px;
+  height: 15em;
   overflow: auto;
   background: #7adeda;
 }

@@ -10,20 +10,13 @@ let dbName = "nodeExam";
 
 /* GET register listing. */
 router.get('/', (req, res) => {
-  res.render('register');
+  res.render('register', {layout: "layoutClean", loggedIn: req.session.user});
 });
 
 router.post('/', (req, res) => {
     console.log(req.body)
-    if (req.body.username == "" ||
-        req.body.password == "" ||
-        req.body.firstName == "" ||
-        req.body.lastName == "" ||
-        req.body.age == "" ||
-        req.body.email == "" ||
-        req.body.phone == "" ||
-        req.body.zipCodes == "") {
-        res.render("register", {layout: "layoutClean", error: "Please fill in all fields."})
+    if (filledFields(req)) {
+        res.render("register", {layout: "layoutClean", error: "Please fill in all fields.", loggedIn: req.session.user})
     } 
     
     database.checkUsername(req.body.username, (available) => {
@@ -39,13 +32,28 @@ router.post('/', (req, res) => {
                 "phone": req.body.phone,
                 "zipCodes": req.body.zipCodes
             }, (user) => {
-                res.render("sitterProfile", {layout: "layoutClean", sitter: user})
+                res.render("sitterProfile", {layout: "layoutClean", sitter: user, loggedIn: req.session.user})
             });
         } else {
             console.log("In else");
-            res.render("register", {layout: "layoutClean", error: "Username is taken."})
+            res.render("register", {layout: "layoutClean", error: "Username is taken.", loggedIn: req.session.user})
         }
     })
 });
+
+let filledFields = function filledFields(req) {
+    if (req.body.username == "" ||
+        req.body.password == "" ||
+        req.body.firstName == "" ||
+        req.body.lastName == "" ||
+        req.body.age == "" ||
+        req.body.email == "" ||
+        req.body.phone == "" ||
+        req.body.zipCodes == "") {
+            return false;
+    } else {
+        return true;
+    }
+}
 
 module.exports = router;

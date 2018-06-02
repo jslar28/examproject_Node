@@ -23,7 +23,18 @@ router.post('/', (req, res) => {
         database.validateUser(req.body.username, req.body.password, (valid, message, user) => {
             console.log(message);
             if (valid) {
-                res.render("sitterProfile", {layout: "layoutClean", sitter: user})
+                delete user.password;
+                req.session.user = user;
+                console.log("req sess us: " + req.session.user._id)
+                // console.log("user: " + user)
+                let yourProfile;
+                if (req.session.user._id == user._id) {
+                    yourProfile = true;
+                } else {
+                    yourProfile = false;
+                }
+
+                res.render("sitterProfile", {layout: "layoutClean", sitter: user, session: req.session, owner: yourProfile, loggedIn: true})
             } else {
                 res.render("loginPage", {layout: "layoutClean", error: message})
             }

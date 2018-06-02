@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('express-handlebars');
+var session = require('client-sessions');
+const database = require('./public/javascripts/databaseQueries');
 
 var app = express();
 
@@ -13,6 +15,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  cookieName: 'session',
+  secret: 'potato',
+  duration: 30 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000
+}))
 
 // Require routes
 var indexRouter = require('./routes/index');
@@ -30,10 +38,41 @@ app.use('/chat', chatRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 
+app.get('/logout', (req, res) => {
+  console.log("Resetting session.")
+  req.session.reset();
+  res.redirect('/');
+})
+
 // view engine setup
 app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts'}))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+// Session middleware for securing the cookie
+app.use(function(req, res, next) {
+  if (req.session && req.session.user) {
+    database.getByUsername("users", req.session.user.email, (user) => {
+      if (user) {
+        req.user = user;
+        delete req.user.password
+        req.session.user = user;
+        req.locals.user = user;
+      }
+      next();
+    });
+  } else {
+    next();
+  }
+});
+
+function requireLogin(req, res, next) {
+  if (!req.user) {
+    res.redirect('/login');
+  } else {
+    next();
+  }
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -8,7 +8,8 @@ let dbName = "nodeExam";
 
 /* GET sitters listing. */
 router.get('/', (req, res) => {
-  res.render('chat');
+  
+  res.render('chat', {layout: "layoutClean", loggedIn: req.session.user});
 });
 
 module.exports = router;

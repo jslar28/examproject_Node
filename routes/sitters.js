@@ -12,17 +12,32 @@ router.get('/', (req, res) => {
 });
 
 router.get('/search', (req, res) => {
-  database.getAllWithZipCode("sitters", req.query.zipCode, (sitters) => {
-    res.render("sitterSearch", { layout: "layoutClean", items: sitters })
+  database.getAllWithZipCode("users", req.query.zipCode, (sitters) => {
+    res.render("sitterSearch", { layout: "layoutClean", items: sitters, loggedIn: req.session.user })
   });
+});
+
+router.get('/:username', (req, res) => {
+  database.getByUsername("users", req.params.username, (result) => {
+    let yourProfile;
+      if (req.session && req.session.user) {
+        if (req.session.user._id == result._id) {
+          console.log("getById session ID: " + req.session.user._id)
+          yourProfile = true;
+        } else {
+          yourProfile = false;
+          }
+        } else {
+        yourProfile = false
+      }    
+      res.render('sitterProfile', {layout: 'layoutClean', sitter: result, owner: yourProfile, loggedIn: req.session.user})
+    })
 });
 
 router.get('/dummy', function(req, res, next) {
   database.createDummySitters(res);
 });
 
-router.get('/:id', (req, res) => {
-  database.getById(res, "sitters", req.params.id)
-});
+
 
 module.exports = router;

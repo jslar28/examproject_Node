@@ -1,12 +1,16 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
-<script src="/javascripts/webChat.js"></script>
-
 <div id="chat">
     <div id="chat-window">
         <div id="chat-output"></div>
         <div id="feedback"></div>
     </div>
-    <input id="handle" type="text" placeholder="Name"/>
+    {{#if loggedIn}}
+    <input id="handle" type="hidden" value={{loggedIn.username}}>
+    {{else}}
+    <input id="handle" type="text" placeholder="Nickname"/>
+    {{/if}}    
     <input id="message" type="text" placeholder="Message"/>
     <button id="send">Send Message</button>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
+<script src="/javascripts/webChat.js"></script>

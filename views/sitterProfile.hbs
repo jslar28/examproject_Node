@@ -1,4 +1,11 @@
-<h2 class="welcomeMessage">Welcome, <span>{{ sitter.firstName }}</span>!</h2>
+<h2 class="welcomeMessage">Session: <span>{{ session.user._id }}</span></h2>
+<div>
+    {{#if owner }}
+        <h2 class="welcomeMessage">Welcome, <span>{{ sitter.firstName }}</span>!</h2>
+    {{else}}
+        <h2 class="welcomeMessage">This is <span>{{ sitter.firstName }}</span>'s profile!</h2>
+    {{/if}}
+</div>
     <div class="profileContainer">
         <div class="profileInfoBox">
             <h4>Your User Informations:</h4>
@@ -17,7 +24,14 @@
         <div id="chat-output"></div>
         <div id="feedback"></div>
     </div>
-    <input id="handle" type="text" placeholder="Name"/>
+    {{#if loggedIn}}
+    <input id="handle" type="hidden" value={{loggedIn.username}}>
+    {{else}}
+    <input id="handle" type="text" placeholder="Nickname"/>
+    {{/if}}    
     <input id="message" type="text" placeholder="Message"/>
     <button id="send">Send Message</button>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
+<script src="/javascripts/webChat.js"></script>
