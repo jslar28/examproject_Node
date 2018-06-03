@@ -9,7 +9,7 @@
 <body class="backdropClean">
   <ul class="navigationBar">
     <li class="navigationLink"><a href="http://localhost:3000">Front Page</a></li>
-    <li class="navigationLink"><a href="http://localhost:3000/chat">Chat Page</a></li>
+    <li class="navigationLink"><a href="http://localhost:3000/chat">Live Chat</a></li>
     {{#if loggedIn}}
       <li class="navigationLink"><a href="http://localhost:3000/sitters/{{loggedIn.username}}">Profile Page</a></li>
       <li class="navigationLink"><a href="http://localhost:3000/logout">Logout Page</a></li>
@@ -21,6 +21,5 @@
   {{{ body }}}
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  
 </body>
 </html>

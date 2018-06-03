@@ -115,6 +115,7 @@ module.exports.add = function add(res, collectionName, user, callback) {
     }
     const db = client.db(dbName);
     console.log("Collection: " + (String(collectionName)));
+    user.inbox = [];
     db.collection(String(collectionName)).insert(user, () => {
       client.close();
       callback(user);
@@ -122,6 +123,21 @@ module.exports.add = function add(res, collectionName, user, callback) {
     //res.render("welcomePage", {layout: "layoutClean", user: user})
   })
 }
+
+/* Put Stuff */
+module.exports.sendMessageToUser = function sendMessageToUser(msg, callback) {
+  mongo.connect(path, (err, client) => {
+    if (err) {
+      console.log("There was an error running MongoDB...", err)
+      return;
+    }
+    const db = client.db(dbName);
+    db.collection("users").update({"username": msg.to},{$push: {"inbox": msg}}, (result) => {
+      callback(result);
+    })
+  })
+}
+
 
 module.exports.validateUser = function validateUser(username, password, callback) {
   console.log("Validating user...");

@@ -15,10 +15,10 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     console.log(req.body)
-    if (filledFields(req)) {
+    if (!filledFields(req)) {
         res.render("register", {layout: "layoutClean", error: "Please fill in all fields.", loggedIn: req.session.user})
-    } 
-    
+        return;
+    }    
     database.checkUsername(req.body.username, (available) => {
         if (available) {
             console.log("Available is true.");
@@ -33,10 +33,12 @@ router.post('/', (req, res) => {
                 "zipCodes": req.body.zipCodes
             }, (user) => {
                 res.render("sitterProfile", {layout: "layoutClean", sitter: user, loggedIn: req.session.user})
+                return;
             });
         } else {
             console.log("In else");
             res.render("register", {layout: "layoutClean", error: "Username is taken.", loggedIn: req.session.user})
+            return;
         }
     })
 });

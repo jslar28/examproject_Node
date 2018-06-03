@@ -9,6 +9,7 @@
     <div class="profileContainer">
         <div class="profileInfoBox">
             <h4>Your User Informations:</h4>
+            <input id="recevier" type="hidden" value={{sitter.username}} >
             <p> Username: {{ sitter.username }}</p>
             <p> Name: {{ sitter.firstName }} <span>{{ sitter.lastName }}</span></p>
             <p> Age: {{ sitter.age }} </p>
@@ -19,11 +20,13 @@
     </div>
 </div>
 
+<div>
 {{#if userIsOnline}}
     {{#if owner}}
-        <p id="user-status">Keep an eye on your chat!</p>
     {{else}}
-        <p id="user-status">User is online! Chat with them below!</p>
+    <div class="wideCentered">
+        <h3 style="color:white" id="user-status">{{sitter.firstName}} is online! Chat with them below!</h3>
+    </div>
     {{/if}}
     <div id="chat">
         <div id="chat-window">
@@ -38,7 +41,45 @@
         <input id="message" type="text" placeholder="Message"/>
         <button id="send">Send Message</button>
     </div>
-{{else}}
-<p id="user-status">User is offline...</p>
-    <p>Inbox Chat instead</p>
 {{/if}}
+{{#if owner}}
+<div>
+    <div class="inbox">
+        <h4 style="padding-left: 1em">Inbox:</h4>
+        <div>
+            {{#each sitter.inbox}}
+            <div class="inbox-message">
+                <p>From: {{ this.sender }}</p>
+                <!-- <p th:text="'Received at: ' + ${message.getDate()}">Unknown</p>-->
+                <p>---</p>
+                <p>{{ this.message }}</p>
+                <p>---</p>
+                <p>Contact information: </p>
+                <p>Email: {{ this.email }}</p>
+                <p>Phone: {{ this.phone }}</p>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+    {{else}}
+    <div class="wideCentered">
+        <div id="message-window">
+            {{#if userIsOnline}}
+                <h5>Send a message!</h5>
+            {{else}}
+                <h5>{{ sitter.firstName }} is currently offline. Send a message!</h5>
+            {{/if}}
+            <input id="sender" type="text" placeholder="Nickname"/>
+            <input id="email" type="text" placeholder="Email"/>
+            <input id="phone" type="text" placeholder="Phone"/>
+            <textarea id="message-area" type="text" placeholder="Message"></textarea>
+            <h5 id="status-field"></h5>            
+            <button id="inboxSend">Send Message</button>        
+        </div>
+    </div>
+{{/if}}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
+<script src="/javascripts/webChat.js"></script>

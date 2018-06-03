@@ -22,7 +22,6 @@ server.on('listening', onListening);
 var io = socket(server);
 io.on('connection', (socket) => {
     console.log('Made socket connection (socket setup): ', socket.id);
-    socket.join("test");
     socket.on('chat', (data) => {
       io.sockets.emit('chat', data);
     })
@@ -34,6 +33,19 @@ io.on('connection', (socket) => {
     socket.on('userLoggedIn', (data) => {
       console.log('Caught it here!')
     })
+
+    socket.on('sendToInbox', (data) => {
+      if (data.sender == "" || data.email == "" || 
+        data.phone == "" || data.message == "") {
+        console.log("Missed some fields - not sending.")
+    } else {
+        console.log("Message valid - sending")
+        database.sendMessageToUser(data, (result) => {
+          console.log("Result in sending to: " + result);
+          io.sockets.emit('sendToInbox', (data));
+        })
+    }
+  })
 })
 
 // Require routes

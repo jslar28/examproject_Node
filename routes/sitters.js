@@ -19,6 +19,10 @@ router.get('/search', (req, res) => {
 
 router.get('/:username', (req, res) => {
   database.getByUsername("users", req.params.username, (result) => {
+    if (result == null) {
+      res.render('error');
+      return;
+    }
     let yourProfile;
       if (req.session && req.session.user) {
         if (req.session.user._id == result._id) {
